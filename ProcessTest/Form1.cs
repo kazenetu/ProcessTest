@@ -26,7 +26,7 @@ namespace ProcessTest
 
     private void OutputData(string data)
     {
-      Result.Text = data;
+      Result.Text = $"[{DateTime.Now.ToLongTimeString()}]callback:\"{data}\"";
     }
   }
 }
