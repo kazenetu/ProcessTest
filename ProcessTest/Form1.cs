@@ -47,7 +47,7 @@ namespace ProcessTest
       button1.Enabled = false;
 
       // Batchを非同期で実行
-      Task.Run(() => { ProcessClass.Start("Batch.exe", "", OutputDataReceive); });
+      runingTask = Task.Run(() => { ProcessClass.Start("Batch.exe", "", OutputDataReceive); });
     }
 
     /// <summary>
@@ -111,6 +111,12 @@ namespace ProcessTest
     {
       // 結果ラベルに設定
       Result.Text = $"[{DateTime.Now.ToLongTimeString()}]callback:\"{data}\"";
+
+      if(nowCount == maxCount)
+      {
+        // ボタンを有効化
+        button1.Enabled = true;
+      }
     }
   }
 }
