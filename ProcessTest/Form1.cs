@@ -22,6 +22,11 @@ namespace ProcessTest
     private decimal nowCount = 0;
 
     /// <summary>
+    /// 実行中のスレッド
+    /// </summary>
+    private Task runingTask;
+
+    /// <summary>
     /// コンストラクタ
     /// </summary>
     public Form1()
@@ -39,9 +44,17 @@ namespace ProcessTest
     /// <param name="e"></param>
     private void button1_Click(object sender, EventArgs e)
     {
+      // 実行中の場合は実行完了まで待つ
+      if (runingTask?.Status == TaskStatus.Running)
+      {
+        runingTask.Wait(1000);
+      }
+
       // 初期化
       maxCount = -1;
       nowCount = -1;
+      runingTask?.Dispose();
+      runingTask = null;
 
       // ボタンを無効化
       button1.Enabled = false;
@@ -77,7 +90,6 @@ namespace ProcessTest
         // メインメソッドに出力文字列を渡す
         Invoke(new ProcessClass.CallbackOutput(OutputData), msg);
       }
-
 
       // 出力文字列から対象の値を取得
       bool GetInt(string srcData,string regString,ref decimal result)
@@ -117,6 +129,17 @@ namespace ProcessTest
         // ボタンを有効化
         button1.Enabled = true;
       }
+    }
+
+    private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+    {
+      // 実行中の場合はキャンセル
+      if (runingTask?.Status == TaskStatus.Running)
+      {
+        MessageBox.Show("プロセス実行中です");
+        e.Cancel = true;
+      }
+
     }
   }
 }
