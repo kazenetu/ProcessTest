@@ -55,6 +55,9 @@ namespace ProcessTest
 
         // プロセス終了まで待つ
         process.WaitForExit();
+
+        // 閉じる
+        process.Close();
       }
     }
 
