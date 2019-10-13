@@ -19,10 +19,9 @@ namespace ProcessTest
       Task.Run(() => { ProcessClass.Start("Batch.exe", "", OutputDataReceive); });
     }
 
-    public bool OutputDataReceive(string data)
+    public void OutputDataReceive(string data)
     {
-      Invoke(new ProcessClass.OutputDataReceive(OutputData), data);
-      return true;
+      Invoke(new ProcessClass.CallbackOutput(OutputData), data);
     }
 
     private void OutputData(string data)

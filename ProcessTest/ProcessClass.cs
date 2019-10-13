@@ -9,7 +9,11 @@ namespace ProcessTest
   /// <remarks>Batchを実行</remarks>
   public static class ProcessClass
   {
-    public delegate void OutputDataReceive(string data);
+    /// <summary>
+    /// 実行プロセスコンソール出力のコールバック
+    /// </summary>
+    /// <param name="data">出力文字列</param>
+    public delegate void CallbackOutput(string data);
 
     /// <summary>
     /// プロセス実行
@@ -17,7 +21,7 @@ namespace ProcessTest
     /// <param name="filePath">ファイル名</param>
     /// <param name="args">引数</param>
     /// <param name="outputDataReceived"></param>
-    public static void Start(string filePath,string args,Func<string,bool> outputDataReceived)
+    public static void Start(string filePath,string args, CallbackOutput outputDataReceived)
     {
       using (var process = new Process())
       {
